@@ -4,7 +4,7 @@ COPY . /
 
 RUN pacman -Syyu --noconfirm
 
-RUN pacman -S --noconfirm sudo
+RUN pacman -S --noconfirm sudo nano vim git base-devel wget curl
 
 RUN echo "%wheel        ALL=(ALL)       ALL" >> /etc/sudoers
 
