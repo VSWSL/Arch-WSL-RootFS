@@ -2,6 +2,8 @@ FROM archlinux:latest
 
 COPY . /
 
+RUN rm /.dockerenv
+
 RUN pacman -Syyu --noconfirm
 
 RUN pacman -S --noconfirm sudo nano vim git base-devel wget curl
