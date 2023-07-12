@@ -1,10 +1,8 @@
-FROM archlinux:latest
+FROM vineelsai/arch:latest
 
 COPY . /
 
 RUN rm /.dockerenv
-
-RUN sed 's/^NoExtract/#&/' /etc/pacman.conf > /etc/pacman.conf
 
 RUN pacman -Syyu --noconfirm
 
