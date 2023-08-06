@@ -1,4 +1,4 @@
-FROM vineelsai/arch:latest
+FROM vineelsai/arch:arm64
 
 COPY . /
 
