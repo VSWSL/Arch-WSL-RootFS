@@ -26,7 +26,7 @@ jobs:
       - name: Build Docker Image
         run: |
           docker build . -t arch:$(cat version.txt)
-          docker build --platform linux/arm64 . -t arch-arm64:$(cat version.txt)
+          docker build --platform linux/arm64 -f Dockerfile.arm64 . -t arch-arm64:$(cat version.txt)
 
       - name: Extract RootFS
         run: |
