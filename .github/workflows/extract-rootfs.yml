@@ -12,7 +12,10 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest, ubuntu-latest-arm64]
+    runs-on: ${{ matrix.os }}
     steps:
       - name: Check out
         uses: actions/checkout@v4
@@ -25,20 +28,13 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          docker build . -t arch:$(cat version.txt)
-          docker build --platform linux/arm64 -f Dockerfile.arm64 . -t arch-arm64:$(cat version.txt)
+          docker build -f Dockerfile.${dpkg --print-architecture} . -t arch:$(cat version.txt)
 
       - name: Extract RootFS
         run: |
           docker create --name arch arch:$(cat version.txt)
-          docker export -o rootfs.amd64.tar arch
-          gzip rootfs.amd64.tar
-          docker rm -f arch
-
-          docker create --name arch-arm64 arch-arm64:$(cat version.txt)
-          docker export -o rootfs.arm64.tar arch-arm64
-          gzip rootfs.arm64.tar
-          docker rm -f arch-arm64
+          docker export -o rootfs.${dpkg --print-architecture}.tar arch
+          gzip rootfs.${dpkg --print-architecture}.tar
 
       - name: Upload RootFS
         uses: actions/upload-artifact@v3
