@@ -35,6 +35,7 @@ jobs:
           docker create --name arch arch:$(cat version.txt)
           docker export -o rootfs.$(dpkg --print-architecture).tar arch
           gzip rootfs.$(dpkg --print-architecture).tar
+          docker rm arch
 
       - name: Upload RootFS
         uses: actions/upload-artifact@v3
