@@ -28,11 +28,11 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          docker build -f Dockerfile.$(dpkg --print-architecture) . -t arch:$(cat version.txt)
+          docker build -f Dockerfile.$(dpkg --print-architecture) . -t arch
 
       - name: Extract RootFS
         run: |
-          docker create --name arch arch:$(cat version.txt)
+          docker create --name arch arch
           docker export -o rootfs.$(dpkg --print-architecture).tar arch
           gzip rootfs.$(dpkg --print-architecture).tar
           docker rm arch
@@ -61,4 +61,4 @@ jobs:
           repo_token: "${{ secrets.RELEASE_TOKEN }}"
           prerelease: false
           files: |
-            *.tar.gz
+            ${{ steps.download-rootfs.outputs.download-path }}/*.tar.gz
