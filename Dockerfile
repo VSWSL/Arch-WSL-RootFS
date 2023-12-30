@@ -1,6 +1,4 @@
-ARG TAG=latest
-ARG IMAGE=vineelsai/arch
-FROM ${IMAGE}:${TAG}
+FROM vineelsai/arch:latest
 
 COPY . /
 

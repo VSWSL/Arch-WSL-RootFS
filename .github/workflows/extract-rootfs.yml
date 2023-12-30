@@ -28,17 +28,15 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          if [ "${{ matrix.os }}" = "ubuntu-latest-arm64" ]; then
-            export DOCKER_CLI_EXPERIMENTAL=enabled
-            docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
-            docker buildx create --name qemu --use
-            docker buildx inspect --bootstrap
-            tag="arm64"
+          if [ "${{ matrix.os }}" == "ubuntu-latest-arm64" ]; then
+            sed -i 's/FROM vineelsai\/arch:latest/FROM vineelsai\/arch:arm64/g' Dockerfile
+            echo "Building for arm64"
           else
-            tag="latest"
+            echo "Building for amd64"
           fi
 
-          docker build -f Dockerfile --build-arg $tag . -t arch
+          cat Dockerfile
+          docker build -f Dockerfile . -t arch
 
       - name: Extract RootFS
         run: |
