@@ -36,11 +36,11 @@ jobs:
           fi
 
           cat Dockerfile
-          docker build -f Dockerfile . -t arch
+          docker build . -t arch
 
       - name: Extract RootFS
         run: |
-          docker create --name arch arch
+          docker create --name arch arch echo "Arch Linux"
           docker export -o rootfs.$(dpkg --print-architecture).tar arch
           gzip rootfs.$(dpkg --print-architecture).tar
           docker rm arch
