@@ -28,7 +28,17 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          docker build -f Dockerfile.$(dpkg --print-architecture) . -t arch
+          if [ "${{ matrix.os }}" = "ubuntu-latest-arm64" ]; then
+            export DOCKER_CLI_EXPERIMENTAL=enabled
+            docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+            docker buildx create --name qemu --use
+            docker buildx inspect --bootstrap
+            tag="arm64"
+          else
+            tag="latest"
+          fi
+
+          docker build -f Dockerfile --build-arg $tag . -t arch
 
       - name: Extract RootFS
         run: |
