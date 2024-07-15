@@ -2,6 +2,8 @@ FROM vineelsai/arch:latest
 
 COPY . /
 
+RUN pacman-key --init
+
 RUN pacman -Syyu --noconfirm
 
 RUN pacman -S --noconfirm sudo nano vim git base-devel wget curl
