@@ -1,4 +1,4 @@
-FROM vineelsai/arch:latest
+FROM archlinux:latest
 
 COPY . /
 
